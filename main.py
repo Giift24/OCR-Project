@@ -1,14 +1,21 @@
 import pytesseract
 from PIL import Image
+import sys
 
 # Prompt the user to enter the path to the image file
 image_path = input('Enter the path to the image file: ')
 
-# Open the image file
-image = Image.open(image_path)
+try:
+    # Open the image file
+    image = Image.open(image_path)
+except IOError:
+    print("Error opening or loading image file")
+    sys.exit()
 
-# Extract the text from the image
-text = pytesseract.image_to_string(image)
-
-# Print the extracted text
-print(text)
+try:
+    # Extract text from image
+    text = pytesseract.image_to_string(image)
+    # Print the extracted text
+    print(text)
+except pytesseract.pytesseract.TesseractError as e:
+    print("Error: ", e)
